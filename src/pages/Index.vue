@@ -1,7 +1,8 @@
 <template>
   <q-page class="flex flex-center">
-    <q-img :src="url" :ratio="1" />
     <h1>{{ name }}</h1>
+    <q-img :src="url" :ratio="1" width="250px" />
+    <q-input standout v-model="id" label="Standout" />
   </q-page>
 </template>
 
@@ -14,6 +15,7 @@ export default {
     return {
       name: "",
       url: "",
+      id: "1",
     };
   },
 
