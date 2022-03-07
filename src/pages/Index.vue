@@ -1,10 +1,12 @@
 <template>
   <q-page class="flex flex-center">
-    <h2>{{ name }}</h2>
-    <q-img :src="url" :ratio="1" width="250px" />
+    <div class="column items-center">
+      <h2>{{ name }}</h2>
+      <q-img :src="url" :ratio="1" width="250px" />
+    </div>
     <div class="row justify-around full-width">
-      <q-input filled v-model="id" />
-      <q-btn color="purple" label="Pesquisar" />
+      <q-input filled v-model="search" label="Digite nome Pokemon" />
+      <q-btn color="purple" label="Pesquisar" @click="foo" />
     </div>
   </q-page>
 </template>
@@ -18,26 +20,45 @@ export default {
     return {
       name: "",
       url: "",
-      id: "1",
+      search: "ditto",
     };
   },
 
-  beforeMount() {
-    api
-      .get("/pokemon/2/")
-      .then((response) => {
-        // handle success
-        console.log(response);
-        this.name = response.data.name;
-        this.url = response.data.sprites.other.dream_world.front_default;
-      })
-      .catch((error) => {
-        // handle error
-        console.log(error);
-      })
-      .then(() => {
-        // always executed
+  async beforeMount() {
+    await this.getPokemon();
+  },
+
+  methods: {
+    getPokemon() {
+      api
+        .get("/pokemon/${this.search/")
+        .then((response) => {
+          // handle success
+          this.name = response.data.name;
+          this.url = response.data.sprites.other.dream_world.front_default;
+          this.triggerPositive();
+        })
+        .catch((error) => {
+          // handle error
+          this.triggerNegative();
+        });
+    },
+
+    triggerPositive() {
+      this.$q.notify({
+        type: "positive",
+        position: "top",
+        message: `Pokemon encontrado ;)!`,
       });
+    },
+
+    triggerNegative() {
+      this.$q.notify({
+        type: "negative",
+        position: "top",
+        message: `Ocorreu um erro, tente novamente!`,
+      });
+    },
   },
 };
 </script>
