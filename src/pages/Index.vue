@@ -1,8 +1,11 @@
 <template>
   <q-page class="flex flex-center">
-    <h1>{{ name }}</h1>
+    <h2>{{ name }}</h2>
     <q-img :src="url" :ratio="1" width="250px" />
-    <q-input standout v-model="id" label="Standout" />
+    <div class="row justify-around full-width">
+      <q-input filled v-model="id" />
+      <q-btn color="purple" label="Pesquisar" />
+    </div>
   </q-page>
 </template>
 
